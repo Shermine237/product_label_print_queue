@@ -44,7 +44,7 @@ python odoo/odoo-bin \
   --addons-path=odoo/addons,/path/to/this/repository \
   --database=ci_product_label_print_queue \
   --init=product_label_print_queue \
-  --test-enable \
+  --test-tags=/product_label_print_queue \
   --stop-after-init \
   --without-demo=all
 ```
