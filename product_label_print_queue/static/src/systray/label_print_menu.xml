@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="product_label_print_queue.Systray">
+        <Dropdown t-if="state.count"
+            position="'bottom-end'"
+            menuClass="'o_label_print_menu'"
+            state="dropdown"
+            beforeOpen.bind="onBeforeOpen">
+            <button class="o_label_print_systray" t-att-title="title" t-att-aria-label="title">
+                <i class="fa fa-fw fa-tag o_label_print_pulse" role="presentation"/>
+                <span class="o_label_print_badge" t-esc="state.count > 99 ? '99+' : state.count"/>
+            </button>
+            <t t-set-slot="content">
+                <div class="o_label_print_header" t-esc="title"/>
+                <div class="o_label_print_list">
+                    <div class="o_label_print_item" t-foreach="state.items" t-as="item" t-key="item.id">
+                        <div class="o_label_print_item_body">
+                            <strong t-esc="item.product"/>
+                            <span class="o_label_print_detail" t-esc="item.detail"/>
+                            <span class="o_label_print_price" t-esc="item.price"/>
+                        </div>
+                        <button type="button" class="btn btn-sm o_label_print_dismiss"
+                            t-att-title="removeLabel"
+                            t-on-click.stop="() => this.dismiss(item.id)">
+                            <i class="fa fa-times" role="presentation"/>
+                        </button>
+                    </div>
+                </div>
+                <div class="o_label_print_footer">
+                    <button type="button" class="btn btn-primary" t-on-click.stop="onPrint">
+                        <t t-esc="printLabel"/>
+                    </button>
+                    <button type="button" class="btn btn-link" t-on-click.stop="openList">
+                        <t t-esc="viewAllLabel"/>
+                    </button>
+                </div>
+            </t>
+        </Dropdown>
+    </t>
+</templates>

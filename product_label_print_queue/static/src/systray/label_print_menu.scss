@@ -1,0 +1,104 @@
+.o_label_print_systray {
+    position: relative;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    line-height: 1;
+
+    &.dropdown-toggle::after {
+        display: none;
+    }
+
+    .o_label_print_pulse {
+        display: inline-block;
+        transform-origin: center;
+        animation: oLabelPrintWiggle 1.2s ease-in-out infinite;
+    }
+
+    .o_label_print_badge {
+        position: absolute;
+        top: 0.15rem;
+        right: 0;
+        min-width: 1rem;
+        height: 1rem;
+        padding: 0 0.25rem;
+        border-radius: 1rem;
+        background: #dc3545;
+        color: #fff;
+        font-size: 0.65rem;
+        line-height: 1rem;
+        text-align: center;
+        animation: oLabelPrintBadge 1.2s ease-in-out infinite;
+    }
+}
+
+.o_label_print_menu {
+    width: 22rem;
+    padding: 0;
+
+    .o_label_print_header {
+        padding: 0.75rem 1rem 0.5rem;
+        font-weight: 600;
+    }
+
+    .o_label_print_list {
+        max-height: 20rem;
+        overflow: auto;
+    }
+
+    .o_label_print_item {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-start;
+        padding: 0.5rem 0.75rem 0.5rem 1rem;
+        border-top: 1px solid var(--o-gray-200, #e9ecef);
+    }
+
+    .o_label_print_item_body {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        flex: 1 1 auto;
+
+        strong,
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .o_label_print_detail,
+    .o_label_print_price {
+        color: var(--o-gray-600, #6c757d);
+        font-size: 0.8rem;
+    }
+
+    .o_label_print_footer {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-top: 1px solid var(--o-gray-200, #e9ecef);
+    }
+}
+
+@keyframes oLabelPrintWiggle {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    20% { transform: rotate(-14deg) scale(1.12); }
+    40% { transform: rotate(14deg) scale(1.12); }
+    60% { transform: rotate(-8deg) scale(1.05); }
+    80% { transform: rotate(8deg) scale(1.05); }
+}
+
+@keyframes oLabelPrintBadge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .o_label_print_systray .o_label_print_pulse,
+    .o_label_print_systray .o_label_print_badge {
+        animation: none;
+    }
+}
