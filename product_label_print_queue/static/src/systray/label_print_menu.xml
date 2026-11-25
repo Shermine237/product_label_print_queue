@@ -7,7 +7,7 @@
             state="dropdown"
             beforeOpen.bind="onBeforeOpen">
             <button class="o_label_print_systray" t-att-title="title" t-att-aria-label="title">
-                <i class="fa fa-fw fa-tag o_label_print_pulse" role="presentation"/>
+                <i class="fa fa-tag o_label_print_pulse" role="presentation"/>
                 <span class="o_label_print_badge" t-esc="state.count > 99 ? '99+' : state.count"/>
             </button>
             <t t-set-slot="content">

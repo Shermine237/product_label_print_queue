@@ -1,6 +1,6 @@
 {
     'name': "Print Product Labels on Price Change",
-    'version': '19.0.1.0.2',
+    'version': '19.0.1.0.3',
     'category': 'Sales/Sales',
     'summary': "Queue product labels when a sales price or pricelist changes",
     'description': """
