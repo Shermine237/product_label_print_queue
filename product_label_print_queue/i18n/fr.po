@@ -11,6 +11,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_product_label_print_queue
+msgid "Print Product Labels on Price Change"
+msgstr "Étiquettes à imprimer après changement de prix"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_product_label_print_queue
+msgid "Queue product labels when a sales price or pricelist changes"
+msgstr "File d'attente d'étiquettes produit quand un prix ou une liste de prix change"
+
 #. module: product_label_print_queue
 #: model:ir.model,name:product_label_print_queue.model_product_label_print_queue
 msgid "Product Label Print Queue"

@@ -1,16 +1,15 @@
 {
-    'name': "Étiquettes à imprimer après changement de prix",
+    'name': "Print Product Labels on Price Change",
     'version': '19.0.1.0.0',
     'category': 'Sales/Sales',
-    'summary': "File d'attente d'étiquettes produit quand un prix ou une liste de prix change",
+    'summary': "Queue product labels when a sales price or pricelist changes",
     'description': """
-Met en file d'attente l'impression d'étiquettes lorsqu'un prix de vente,
-un supplément de variante ou une règle de liste de prix est modifié.
+Queue a product label for printing when a sales price, a variant extra
+price, or a pricelist rule changes.
 
-Un indicateur animé apparaît dans la barre supérieure. Il ouvre la liste
-des étiquettes en attente et le bouton d'impression lance le wizard natif
-product.label.layout, comme la sélection de plusieurs produits puis
-« Print Labels ».
+An animated indicator appears in the top bar. It lists the labels waiting
+to be printed, and Print Labels opens the standard product.label.layout
+wizard, as if those products had been selected in the list view.
     """,
     'author': 'Custom',
     'license': 'LGPL-3',
