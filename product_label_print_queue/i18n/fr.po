@@ -4,66 +4,29 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
-"Language: fr\n"
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-25 11:52+0000\n"
+"PO-Revision-Date: 2026-11-25 11:52+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#. module: base
-#: model:ir.module.module,shortdesc:base.module_product_label_print_queue
-msgid "Print Product Labels on Price Change"
-msgstr "Étiquettes à imprimer après changement de prix"
-
-#. module: base
-#: model:ir.module.module,summary:base.module_product_label_print_queue
-msgid "Queue product labels when a sales price or pricelist changes"
-msgstr "File d'attente d'étiquettes produit quand un prix ou une liste de prix change"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: product_label_print_queue
-#: model:ir.model,name:product_label_print_queue.model_product_label_print_queue
-msgid "Product Label Print Queue"
-msgstr "File d'impression d'étiquettes"
+#. odoo-python
+#: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
+msgid "%(old)s → %(new)s"
+msgstr ""
 
 #. module: product_label_print_queue
-#: model:ir.actions.act_window,name:product_label_print_queue.action_product_label_print_queue
-#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_list
-#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_form
-#: code:addons/product_label_print_queue/static/src/systray/label_print_menu.js:0
-msgid "Labels to print"
-msgstr "Étiquettes à imprimer"
-
-#. module: product_label_print_queue
-#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__product_tmpl_id
-msgid "Product"
-msgstr "Produit"
-
-#. module: product_label_print_queue
-#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__pricelist_id
-#: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__source__pricelist
-msgid "Pricelist"
-msgstr "Liste de prix"
-
-#. module: product_label_print_queue
-#: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__source__list_price
-msgid "Sales Price"
-msgstr "Prix de vente"
-
-#. module: product_label_print_queue
-#: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__source__price_extra
-msgid "Variant Extra Price"
-msgstr "Supplément de variante"
-
-#. module: product_label_print_queue
-#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__old_price
-msgid "Previous Price"
-msgstr "Ancien prix"
-
-#. module: product_label_print_queue
-#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__new_price
-msgid "New Price"
-msgstr "Nouveau prix"
+#: model_terms:ir.actions.act_window,help:product_label_print_queue.action_product_label_print_queue
+msgid ""
+"A product is added here when its sales price, variant extra price, or "
+"pricelist rule changes."
+msgstr ""
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__user_id
@@ -71,9 +34,91 @@ msgid "Changed by"
 msgstr "Modifié par"
 
 #. module: product_label_print_queue
-#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__state
-msgid "Status"
-msgstr "Statut"
+#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_list
+msgid "Changed on"
+msgstr "Modifié le"
+
+#. module: product_label_print_queue
+#: model:ir.model,name:product_label_print_queue.model_product_label_layout
+msgid "Choose the sheet layout to print the labels"
+msgstr "Choisir le modèle pour imprimer les étiquettes"
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__company_id
+msgid "Company"
+msgstr ""
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_layout__display_name
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__display_name
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_pricelist_item__display_name
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_template__display_name
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_template_attribute_value__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_layout__id
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__id
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_pricelist_item__id
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_template__id
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_template_attribute_value__id
+msgid "ID"
+msgstr ""
+
+#. module: product_label_print_queue
+#. odoo-javascript
+#: code:addons/product_label_print_queue/static/src/systray/label_print_menu.js:0
+#: model:ir.actions.act_window,name:product_label_print_queue.action_product_label_print_queue
+#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_form
+#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_list
+msgid "Labels to print"
+msgstr "Étiquettes à imprimer"
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__new_price
+msgid "New Price"
+msgstr "Nouveau prix"
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__new_price_display
+msgid "New Price Display"
+msgstr ""
+
+#. module: product_label_print_queue
+#: model_terms:ir.actions.act_window,help:product_label_print_queue.action_product_label_print_queue
+msgid "No label is waiting to be printed."
+msgstr ""
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__old_price_display
+msgid "Old Price Display"
+msgstr ""
 
 #. module: product_label_print_queue
 #: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__state__pending
@@ -82,10 +127,65 @@ msgid "Pending"
 msgstr "En attente"
 
 #. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__old_price
+msgid "Previous Price"
+msgstr "Ancien prix"
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__pricelist_id
+#: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__source__pricelist
+#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_search
+msgid "Pricelist"
+msgstr "Liste de prix"
+
+#. module: product_label_print_queue
+#: model:ir.model,name:product_label_print_queue.model_product_pricelist_item
+msgid "Pricelist Rule"
+msgstr "Règle des listes des prix"
+
+#. module: product_label_print_queue
+#. odoo-python
+#: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
+msgid "Pricelist: %s"
+msgstr ""
+
+#. module: product_label_print_queue
+#. odoo-javascript
+#: code:addons/product_label_print_queue/static/src/systray/label_print_menu.js:0
+#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_form
+#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_list
+msgid "Print Labels"
+msgstr "Imprimer les étiquettes"
+
+#. module: product_label_print_queue
 #: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__state__printed
 #: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_search
 msgid "Printed"
 msgstr "Imprimé"
+
+#. module: product_label_print_queue
+#: model:ir.model,name:product_label_print_queue.model_product_template
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__product_tmpl_id
+msgid "Product"
+msgstr "Produit"
+
+#. module: product_label_print_queue
+#: model:ir.model,name:product_label_print_queue.model_product_label_print_queue
+msgid "Product Label Print Queue"
+msgstr "File d'impression d'étiquettes"
+
+#. module: product_label_print_queue
+#: model:ir.model,name:product_label_print_queue.model_product_template_attribute_value
+msgid "Product Template Attribute Value"
+msgstr "Valeur d'attribut du modèle du produit"
+
+#. module: product_label_print_queue
+#. odoo-javascript
+#: code:addons/product_label_print_queue/static/src/systray/label_print_menu.js:0
+#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_form
+#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_list
+msgid "Remove"
+msgstr "Retirer"
 
 #. module: product_label_print_queue
 #: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__state__cancelled
@@ -94,50 +194,46 @@ msgid "Removed"
 msgstr "Retiré"
 
 #. module: product_label_print_queue
-#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_list
-#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_form
-#: code:addons/product_label_print_queue/static/src/systray/label_print_menu.js:0
-msgid "Print Labels"
-msgstr "Imprimer les étiquettes"
-
-#. module: product_label_print_queue
-#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_list
-#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_form
-#: code:addons/product_label_print_queue/static/src/systray/label_print_menu.js:0
-msgid "Remove"
-msgstr "Retirer"
-
-#. module: product_label_print_queue
-#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_list
-msgid "Changed on"
-msgstr "Modifié le"
-
-#. module: product_label_print_queue
-#: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
-msgid "There is no product label waiting to be printed."
-msgstr "Aucune étiquette produit n'est en attente d'impression."
-
-#. module: product_label_print_queue
-#: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
-msgid "Pricelist: %s"
-msgstr "Liste de prix : %s"
-
-#. module: product_label_print_queue
-#: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
-msgid "Variant extra price"
-msgstr "Supplément de variante"
-
-#. module: product_label_print_queue
-#: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
-msgid "Sales price"
+#: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__source__list_price
+msgid "Sales Price"
 msgstr "Prix de vente"
 
 #. module: product_label_print_queue
+#. odoo-python
 #: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
-msgid "%(old)s → %(new)s"
-msgstr "%(old)s → %(new)s"
+msgid "Sales price"
+msgstr ""
 
 #. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__source
+#: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_search
+msgid "Source"
+msgstr ""
+
+#. module: product_label_print_queue
+#: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__state
+msgid "Status"
+msgstr "Statut"
+
+#. module: product_label_print_queue
+#. odoo-python
+#: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
+msgid "There is no product label waiting to be printed."
+msgstr ""
+
+#. module: product_label_print_queue
+#: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__source__price_extra
+msgid "Variant Extra Price"
+msgstr "Supplément de variante"
+
+#. module: product_label_print_queue
+#. odoo-python
+#: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
+msgid "Variant extra price"
+msgstr ""
+
+#. module: product_label_print_queue
+#. odoo-javascript
 #: code:addons/product_label_print_queue/static/src/systray/label_print_menu.js:0
 msgid "View all"
-msgstr "Tout voir"
+msgstr ""
