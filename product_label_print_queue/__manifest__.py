@@ -11,7 +11,7 @@ An animated indicator appears in the top bar. It lists the labels waiting
 to be printed, and Print Labels opens the standard product.label.layout
 wizard, as if those products had been selected in the list view.
     """,
-    'author': 'Custom',
+    'author': 'Charlie Rostant YOSSA (Shermine237)',
     'license': 'LGPL-3',
     'depends': ['product'],
     'data': [
