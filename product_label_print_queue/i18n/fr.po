@@ -19,7 +19,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
 msgid "%(old)s → %(new)s"
-msgstr ""
+msgstr "%(old)s → %(new)s"
 
 #. module: product_label_print_queue
 #: model_terms:ir.actions.act_window,help:product_label_print_queue.action_product_label_print_queue
@@ -27,6 +27,8 @@ msgid ""
 "A product is added here when its sales price, variant extra price, or "
 "pricelist rule changes."
 msgstr ""
+"Un produit est ajouté ici lorsque son prix de vente, son supplément de "
+"variante ou une règle de liste de prix change."
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__user_id
@@ -46,22 +48,22 @@ msgstr "Choisir le modèle pour imprimer les étiquettes"
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__company_id
 msgid "Company"
-msgstr ""
+msgstr "Société"
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Créé par"
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Créé le"
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__currency_id
 msgid "Currency"
-msgstr ""
+msgstr "Devise"
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_layout__display_name
@@ -79,7 +81,7 @@ msgstr "Nom d'affichage"
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_template__id
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_template_attribute_value__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: product_label_print_queue
 #. odoo-javascript
@@ -93,12 +95,12 @@ msgstr "Étiquettes à imprimer"
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Dernière mise à jour par"
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Dernière mise à jour le"
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__new_price
@@ -108,17 +110,17 @@ msgstr "Nouveau prix"
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__new_price_display
 msgid "New Price Display"
-msgstr ""
+msgstr "Affichage du nouveau prix"
 
 #. module: product_label_print_queue
 #: model_terms:ir.actions.act_window,help:product_label_print_queue.action_product_label_print_queue
 msgid "No label is waiting to be printed."
-msgstr ""
+msgstr "Aucune étiquette n'est en attente d'impression."
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__old_price_display
 msgid "Old Price Display"
-msgstr ""
+msgstr "Affichage de l'ancien prix"
 
 #. module: product_label_print_queue
 #: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__state__pending
@@ -147,7 +149,7 @@ msgstr "Règle des listes des prix"
 #. odoo-python
 #: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
 msgid "Pricelist: %s"
-msgstr ""
+msgstr "Liste de prix : %s"
 
 #. module: product_label_print_queue
 #. odoo-javascript
@@ -202,13 +204,13 @@ msgstr "Prix de vente"
 #. odoo-python
 #: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
 msgid "Sales price"
-msgstr ""
+msgstr "Prix de vente"
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__source
 #: model_terms:ir.ui.view,arch_db:product_label_print_queue.product_label_print_queue_view_search
 msgid "Source"
-msgstr ""
+msgstr "Origine"
 
 #. module: product_label_print_queue
 #: model:ir.model.fields,field_description:product_label_print_queue.field_product_label_print_queue__state
@@ -219,7 +221,7 @@ msgstr "Statut"
 #. odoo-python
 #: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
 msgid "There is no product label waiting to be printed."
-msgstr ""
+msgstr "Aucune étiquette produit n'est en attente d'impression."
 
 #. module: product_label_print_queue
 #: model:ir.model.fields.selection,name:product_label_print_queue.selection__product_label_print_queue__source__price_extra
@@ -230,10 +232,10 @@ msgstr "Supplément de variante"
 #. odoo-python
 #: code:addons/product_label_print_queue/models/product_label_print_queue.py:0
 msgid "Variant extra price"
-msgstr ""
+msgstr "Supplément de variante"
 
 #. module: product_label_print_queue
 #. odoo-javascript
 #: code:addons/product_label_print_queue/static/src/systray/label_print_menu.js:0
 msgid "View all"
-msgstr ""
+msgstr "Tout voir"

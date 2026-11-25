@@ -1,6 +1,7 @@
 import logging
 
 from odoo import api, models
+from odoo.tools import float_compare
 
 _logger = logging.getLogger(__name__)
 
@@ -8,7 +9,7 @@ _logger = logging.getLogger(__name__)
 # skip the queue so saving the rule cannot freeze the interface.
 MAX_LABEL_PRODUCTS = 200
 
-_LABEL_PRICE_FIELDS = {
+_LABEL_PRICE_FIELDS = frozenset({
     'fixed_price',
     'percent_price',
     'price_discount',
@@ -28,7 +29,7 @@ _LABEL_PRICE_FIELDS = {
     'date_start',
     'date_end',
     'pricelist_id',
-}
+})
 
 
 class ProductPricelistItem(models.Model):
@@ -50,150 +51,118 @@ class ProductPricelistItem(models.Model):
             return self.env['product.template']
         return templates
 
-    def _templates_for_scope(self, applied_on, product_tmpl, product, categ):
-        if applied_on == '1_product' and product_tmpl:
-            return product_tmpl
-        if applied_on == '0_product_variant' and product:
-            return product.product_tmpl_id
-        if applied_on == '2_product_category' and categ:
+    def _affected_templates(self):
+        """Products whose label is tied to this rule.
+
+        Product and variant rules stay on that one template. Category and
+        global rules are capped and never run the pricelist price engine.
+        """
+        self.ensure_one()
+        if not self.pricelist_id:
+            return self.env['product.template']
+        if self.applied_on == '1_product' and self.product_tmpl_id:
+            return self.product_tmpl_id
+        if self.applied_on == '0_product_variant' and self.product_id:
+            return self.product_id.product_tmpl_id
+        if self.applied_on == '2_product_category' and self.categ_id:
             return self._limited_templates([
-                ('categ_id', 'child_of', categ.id),
+                ('categ_id', 'child_of', self.categ_id.id),
                 ('type', '!=', 'service'),
             ])
-        if applied_on == '3_global':
+        if self.applied_on == '3_global':
             return self._limited_templates([('type', '!=', 'service')])
         return self.env['product.template']
 
-    def _templates_for_label_queue(self):
-        templates = self.env['product.template']
+    def _amount_snapshot(self):
+        """Raw rule amount. This does not compute the pricelist price."""
+        self.ensure_one()
+        if self.compute_price == 'fixed':
+            return self.fixed_price
+        if self.compute_price == 'percentage':
+            return self.percent_price
+        return self.price_discount
+
+    def _queue_label_changes(self, old_amounts=None):
+        """Queue the products of rules that already changed.
+
+        ``old_amounts`` maps an item id to its previous raw amount. Missing
+        entries mean the rule was just created.
+        """
+        if self._skip_label_queue() or not self:
+            return
+        old_amounts = old_amounts or {}
+        queue = self.env['product.label.print.queue']
+        lines = queue.browse()
         for item in self:
             if not item.pricelist_id:
                 continue
-            templates |= self._templates_for_scope(
-                item.applied_on,
-                item.product_tmpl_id,
-                item.product_id,
-                item.categ_id,
-            )
-        return templates.filtered(lambda template: template.type != 'service')
-
-    def _templates_from_values(self, values):
-        values = dict(values)
-        if values.get('product_id') and not values.get('product_tmpl_id'):
-            product = self.env['product.product'].browse(values['product_id'])
-            values['product_tmpl_id'] = product.product_tmpl_id.id
-        applied = values.get('applied_on')
-        if not applied:
-            applied = (
-                '0_product_variant' if values.get('product_id') else
-                '1_product' if values.get('product_tmpl_id') else
-                '2_product_category' if values.get('categ_id') else
-                '3_global'
-            )
-        return self._templates_for_scope(
-            applied,
-            self.env['product.template'].browse(values.get('product_tmpl_id')),
-            self.env['product.product'].browse(values.get('product_id')),
-            self.env['product.category'].browse(values.get('categ_id')),
-        )
-
-    @api.model
-    def _price_map(self, pricelist, templates):
-        if not pricelist or not templates:
-            return {}
-        templates = templates.filtered('product_variant_id')
-        products = templates.product_variant_id
-        if not products:
-            return {}
-        prices = pricelist._get_products_price(products, 1.0)
-        return {
-            template.id: prices.get(template.product_variant_id.id, 0.0)
-            for template in templates
-            if template.product_variant_id
-        }
-
-    def _queue_groups(self, groups):
-        merged = {}
-        for pricelist, templates, old_map in groups:
-            if not pricelist or not templates:
+            templates = item._affected_templates()
+            if not templates:
                 continue
-            bucket = merged.setdefault(pricelist.id, {
-                'pricelist': pricelist,
-                'templates': self.env['product.template'],
-                'old_map': {},
-            })
-            bucket['templates'] |= templates
-            bucket['old_map'].update(old_map)
-        queue = self.env['product.label.print.queue']
-        lines = queue.browse()
-        for bucket in merged.values():
-            new_map = self._price_map(bucket['pricelist'], bucket['templates'])
+            new_amount = item._amount_snapshot()
+            previous = old_amounts.get(item.id)
+            old_prices = {}
+            new_prices = {}
+            for template in templates:
+                new_prices[template.id] = new_amount
+                if previous is None and item.compute_price == 'fixed':
+                    # A new fixed rule that repeats the sales price does not
+                    # change the printed label.
+                    old_prices[template.id] = template.list_price
+                elif previous is not None:
+                    old_prices[template.id] = previous
             lines |= queue._enqueue(
-                bucket['templates'],
+                templates,
                 'pricelist',
-                bucket['pricelist'],
-                bucket['old_map'],
-                new_map,
+                item.pricelist_id,
+                old_prices,
+                new_prices,
                 notify=False,
             )
         if lines:
             lines._notify_users()
-        return lines
 
     @api.model_create_multi
     def create(self, vals_list):
-        if self._skip_label_queue():
-            return super().create(vals_list)
-        previews = []
-        for vals in vals_list:
-            pricelist = self.env['product.pricelist'].browse(vals.get('pricelist_id'))
-            templates = self._templates_from_values(vals)
-            old_map = self._price_map(pricelist, templates) if pricelist else {}
-            previews.append((pricelist, templates, old_map))
         records = super().create(vals_list)
-        groups = []
-        for record, (pricelist, templates, old_map) in zip(records, previews):
-            groups.append((
-                record.pricelist_id or pricelist,
-                templates | record._templates_for_label_queue(),
-                old_map,
-            ))
-        if groups:
-            self._queue_groups(groups)
+        if not self._skip_label_queue():
+            records._queue_label_changes()
         return records
 
     def write(self, vals):
         if self._skip_label_queue() or not (set(vals) & _LABEL_PRICE_FIELDS):
             return super().write(vals)
-        extra = self.env['product.template']
-        if any(key in vals for key in ('applied_on', 'product_tmpl_id', 'product_id', 'categ_id')):
-            extra = self._templates_from_values(vals)
-        previews = []
-        for item in self:
-            pricelist = item.pricelist_id
-            templates = item._templates_for_label_queue() | extra
-            previews.append((pricelist, templates, self._price_map(pricelist, templates)))
+        # Read the raw amounts already in cache. Do this before super(), and
+        # do not compute pricelist prices here: that flushes the pending save
+        # and walks every matching rule.
+        old_amounts = {item.id: item._amount_snapshot() for item in self}
         res = super().write(vals)
-        groups = []
-        for item, (pricelist, templates, old_map) in zip(self, previews):
-            groups.append((
-                item.pricelist_id or pricelist,
-                templates | item._templates_for_label_queue(),
-                old_map,
-            ))
-        if groups:
-            self._queue_groups(groups)
+        precision = self.env['decimal.precision'].precision_get('Product Price')
+        changed = self.browse()
+        for item in self:
+            if float_compare(old_amounts[item.id], item._amount_snapshot(), precision_digits=precision):
+                changed |= item
+        if changed:
+            changed._queue_label_changes(old_amounts)
         return res
 
     def unlink(self):
         if self._skip_label_queue():
             return super().unlink()
-        groups = []
+        pending = []
         for item in self:
-            pricelist = item.pricelist_id
-            templates = item._templates_for_label_queue()
-            groups.append((pricelist, templates, self._price_map(pricelist, templates)))
+            templates = item._affected_templates()
+            if templates and item.pricelist_id:
+                pending.append((item.pricelist_id, templates, item._amount_snapshot()))
         res = super().unlink()
-        if groups:
-            self._queue_groups(groups)
+        queue = self.env['product.label.print.queue']
+        lines = queue.browse()
+        for pricelist, templates, old_amount in pending:
+            old_prices = {template.id: old_amount for template in templates}
+            new_prices = {template.id: template.list_price for template in templates}
+            lines |= queue._enqueue(
+                templates, 'pricelist', pricelist, old_prices, new_prices, notify=False,
+            )
+        if lines:
+            lines._notify_users()
         return res

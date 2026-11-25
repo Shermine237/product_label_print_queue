@@ -1,4 +1,5 @@
 from odoo import models
+from odoo.tools import float_compare
 
 
 class ProductTemplate(models.Model):
@@ -12,10 +13,21 @@ class ProductTemplate(models.Model):
         )
         old_prices = {template.id: template.list_price for template in self} if track else {}
         res = super().write(vals)
-        if track:
-            new_prices = {template.id: template.list_price for template in self}
+        if not track:
+            return res
+        precision = self.env['decimal.precision'].precision_get('Product Price')
+        changed = self.browse()
+        changed_old = {}
+        changed_new = {}
+        for template in self:
+            new_price = template.list_price
+            if float_compare(old_prices[template.id], new_price, precision_digits=precision):
+                changed |= template
+                changed_old[template.id] = old_prices[template.id]
+                changed_new[template.id] = new_price
+        if changed:
             self.env['product.label.print.queue']._enqueue(
-                self, 'list_price', None, old_prices, new_prices,
+                changed, 'list_price', None, changed_old, changed_new,
             )
         return res
 

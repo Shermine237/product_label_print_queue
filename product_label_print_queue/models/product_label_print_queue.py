@@ -104,8 +104,8 @@ class ProductLabelPrintQueue(models.Model):
         precision = self.env['decimal.precision'].precision_get('Product Price')
         old_prices = old_prices or {}
         new_prices = new_prices or {}
-        queue = self.sudo()
-        touched = queue.browse()
+        pricelist_id = pricelist.id if pricelist else False
+        pending = []
         for template in templates:
             old = old_prices.get(template.id)
             new = new_prices.get(template.id, template.list_price)
@@ -115,30 +115,38 @@ class ProductLabelPrintQueue(models.Model):
                 and float_compare(old, new, precision_digits=precision) == 0
             ):
                 continue
-            pricelist_id = pricelist.id if pricelist else False
+            pending.append((template, old, new))
+        if not pending:
+            return self.browse()
+
+        queue = self.sudo()
+        existing_lines = queue.search([
+            ('product_tmpl_id', 'in', [template.id for template, _old, _new in pending]),
+            ('pricelist_id', '=', pricelist_id),
+            ('source', '=', source),
+            ('state', '=', 'pending'),
+        ])
+        existing_by_template = {line.product_tmpl_id.id: line for line in existing_lines}
+        touched = queue.browse()
+        to_create = []
+        for template, old, new in pending:
             currency = self._queue_currency(template, pricelist)
             company = self._queue_company(template, pricelist)
-            domain = [
-                ('product_tmpl_id', '=', template.id),
-                ('pricelist_id', '=', pricelist_id),
-                ('source', '=', source),
-                ('state', '=', 'pending'),
-            ]
-            existing = queue.search(domain, limit=1)
-            if existing:
-                if new is not None and float_compare(existing.old_price, new, precision_digits=precision) == 0:
-                    existing.write({'state': 'cancelled'})
-                    touched |= existing
-                    continue
-                existing.write({
-                    'new_price': new if new is not None else existing.new_price,
-                    'currency_id': currency.id,
-                    'user_id': self.env.uid,
-                    'company_id': company.id or False,
-                })
-                touched |= existing
+            company_id = company.id or False
+            current = existing_by_template.get(template.id)
+            if current:
+                if new is not None and float_compare(current.old_price, new, precision_digits=precision) == 0:
+                    current.write({'state': 'cancelled'})
+                else:
+                    current.write({
+                        'new_price': new if new is not None else current.new_price,
+                        'currency_id': currency.id,
+                        'user_id': self.env.uid,
+                        'company_id': company_id,
+                    })
+                touched |= current
                 continue
-            touched |= queue.create({
+            to_create.append({
                 'product_tmpl_id': template.id,
                 'pricelist_id': pricelist_id,
                 'source': source,
@@ -146,9 +154,11 @@ class ProductLabelPrintQueue(models.Model):
                 'new_price': template.list_price if new is None else new,
                 'currency_id': currency.id,
                 'user_id': self.env.uid,
-                'company_id': company.id or False,
+                'company_id': company_id,
                 'state': 'pending',
             })
+        if to_create:
+            touched |= queue.create(to_create)
         if notify and touched:
             touched._notify_users()
         return touched
