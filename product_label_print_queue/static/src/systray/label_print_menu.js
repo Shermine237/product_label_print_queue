@@ -77,5 +77,5 @@ export class LabelPrintSystray extends Component {
 registry.category("systray").add(
     "product_label_print_queue.LabelPrintSystray",
     { Component: LabelPrintSystray },
-    { sequence: 12 },
+    { sequence: 5 },
 );
